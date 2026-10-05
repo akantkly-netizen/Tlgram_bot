@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#090e1d">
+    <meta name="description" content="مدار آخر؛ از میان آوار ستاره‌ها عبور کن و تکه‌های بلور را جمع کن.">
+    <title>مدار آخر — پرواز در دل آوار</title>
+    <link rel="stylesheet" href="./game.css">
+    <script src="./game.js" defer></script>
+  </head>
+  <body>
+    <main class="game-shell" data-testid="game-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="مدار آخر" data-testid="game-title">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span class="brand-copy">
+            <strong>مدار آخر</strong>
+            <small>گزارش پرواز <i></i> بخش ۰۱</small>
+          </span>
+        </div>
+        <div class="mission-tag" data-testid="mission-status">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>منطقهٔ ناشناخته</span>
+        </div>
+      </header>
+
+      <section class="game-layout" aria-label="بازی مدار آخر">
+        <aside class="mission-rail" aria-label="اطلاعات مأموریت">
+          <div class="rail-kicker"><span class="tiny-star" aria-hidden="true">✳</span> مأموریت جاری</div>
+          <h1>تا <span>آخرین</span><br>مدار.</h1>
+          <p class="mission-copy" data-testid="mission-description">از میان آوارهای فضایی بگذر. بلورها را جمع کن. تا وقتی ستاره‌ها روشن‌اند، ادامه بده.</p>
+
+          <div class="objective">
+            <span class="objective-index">هدف <b>۰۱</b></span>
+            <span class="objective-name">بقا و بازیابی بلور</span>
+            <span class="objective-line"><i></i></span>
+          </div>
+
+          <div class="howto">
+            <span class="section-label">راهنمای پرواز</span>
+            <div class="control-hint">
+              <span class="keycap" aria-hidden="true">← ↑ ↓ →</span>
+              <span>کلیدهای جهت برای حرکت</span>
+            </div>
+            <div class="control-hint">
+              <span class="keycap mouse-key" aria-hidden="true"><span></span></span>
+              <span>یا نشانگر را دنبال کن</span>
+            </div>
+            <div class="control-hint mobile-hint">
+              <span class="keycap touch-key" aria-hidden="true">✣</span>
+              <span>لمس کن و جهت بده</span>
+            </div>
+          </div>
+          <p class="rail-footnote"><span aria-hidden="true">⌁</span> هر تکه بلور، ردّی از خانه است.</p>
+        </aside>
+
+        <div class="play-column">
+          <div class="hud" aria-label="وضعیت پرواز" data-testid="game-hud">
+            <div class="hud-stat hud-score">
+              <span class="hud-label">امتیاز</span>
+              <strong id="score-value" data-testid="score-value">۰۰۰۰۰</strong>
+            </div>
+            <div class="hud-stat">
+              <span class="hud-label">بهترین</span>
+              <strong id="best-value" data-testid="best-value">۰۰۰۰۰</strong>
+            </div>
+            <div class="hud-stat lives-stat">
+              <span class="hud-label">جان</span>
+              <strong id="lives-value" data-testid="lives-value">۳</strong>
+              <span class="life-pips" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+            <div class="hud-stat shard-stat">
+              <span class="hud-label">بلور</span>
+              <strong id="shards-value" data-testid="shards-value">۰</strong>
+              <span class="shard-glyph" aria-hidden="true"></span>
+            </div>
+            <div class="hud-stat time-stat">
+              <span class="hud-label">زمان</span>
+              <strong id="time-value" data-testid="time-value">۰۰:۰۰</strong>
+            </div>
+            <button class="icon-button sound-button" id="sound-toggle" type="button" aria-label="خاموش کردن صدا" aria-pressed="true" data-testid="sound-toggle">
+              <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7m3-10a9 9 0 0 1 0 13"/></svg>
+              <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m17 9 5 6m0-6-5 6"/></svg>
+            </button>
+            <button class="icon-button pause-button" id="pause-button" type="button" aria-label="مکث بازی" data-testid="pause-button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+            </button>
+          </div>
+
+          <div class="game-frame" id="game-frame" data-testid="game-frame">
+            <div class="frame-grain" aria-hidden="true"></div>
+            <div class="starfield starfield-one" aria-hidden="true"></div>
+            <div class="starfield starfield-two" aria-hidden="true"></div>
+            <div class="frame-coordinate coordinate-top" aria-hidden="true">مختصات <b>۲۴.۰۸ / ۴۶.۶۱</b></div>
+            <div class="frame-coordinate coordinate-bottom" aria-hidden="true">ناحیهٔ کمربند خرده‌سیارک</div>
+            <div class="danger-line" aria-hidden="true"><i></i><span>خطر برخورد</span></div>
+
+            <canvas id="game-canvas" role="img" aria-label="میدان بازی فضایی مدار آخر. سفینه را از میان آوار هدایت کن و بلورها را جمع کن." data-testid="game-canvas">
+              بازی فضایی؛ برای حرکت از کلیدهای جهت‌نما یا لمس صفحه استفاده کن.
+            </canvas>
+
+            <section class="game-overlay intro-overlay" id="intro-screen" aria-labelledby="intro-title" data-testid="intro-screen">
+              <div class="overlay-card intro-card">
+                <div class="card-topline"><span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i></span><span>سیگنال پایدار</span></div>
+                <div class="ship-emblem" aria-hidden="true">
+                  <span class="emblem-orbit orbit-a"></span><span class="emblem-orbit orbit-b"></span>
+                  <svg viewBox="0 0 72 72"><path d="M36 9c9 12 15 26 15 39L36 58 21 48C21 35 27 21 36 9Z"/><path d="m29 46-8 12 15-5 15 5-8-12"/><circle cx="36" cy="34" r="5"/></svg>
+                  <span class="emblem-flame"></span>
+                </div>
+                <span class="overlay-eyebrow">آمادهٔ پرتاب</span>
+                <h2 id="intro-title">به مدار آخر<br>خوش آمدی.</h2>
+                <p>یک راه مانده. با احتیاط پرواز کن.</p>
+                <button class="primary-button" id="start-button" type="button" data-testid="start-button">
+                  <span>شروع پرواز</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-5 5 5-5 5"/></svg>
+                </button>
+                <span class="card-caption"><i></i> بلورها را پیدا کن؛ آوار را نه.</span>
+              </div>
+            </section>
+
+            <section class="game-overlay pause-overlay" id="pause-screen" aria-labelledby="pause-title" hidden data-testid="pause-screen">
+              <div class="overlay-card compact-card">
+                <span class="pause-symbol" aria-hidden="true"><i></i><i></i></span>
+                <span class="overlay-eyebrow">پرواز متوقف شد</span>
+                <h2 id="pause-title">نفسی تازه کن.</h2>
+                <p>ستاره‌ها منتظر می‌مانند.</p>
+                <button class="primary-button" id="resume-button" type="button" data-testid="resume-button">
+                  <span>ادامهٔ پرواز</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5Z"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <section class="game-overlay gameover-overlay" id="game-over-screen" aria-labelledby="game-over-title" hidden data-testid="game-over-screen">
+              <div class="overlay-card compact-card">
+                <span class="overlay-eyebrow">پایان مخابره</span>
+                <h2 id="game-over-title">این مدار تمام شد.</h2>
+                <p>هر پرواز، راهی تازه برای برگشتن است.</p>
+                <div class="final-score"><span>امتیاز این پرواز</span><strong id="final-score-value">۰۰۰۰۰</strong></div>
+                <button class="primary-button" id="restart-button" type="button" data-testid="restart-button">
+                  <span>پرواز دوباره</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.2 9a7 7 0 0 1 11.6-2L20 12M4 12l2.2 5a7 7 0 0 0 11.6-2"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <div class="nudge-pad" aria-label="جهت‌دهی لمسی" data-testid="nudge-pad">
+              <button type="button" class="nudge nudge-up" data-nudge="up" aria-label="حرکت به بالا" data-testid="nudge-up"><span></span></button>
+              <button type="button" class="nudge nudge-left" data-nudge="left" aria-label="حرکت به چپ" data-testid="nudge-left"><span></span></button>
+              <button type="button" class="nudge nudge-down" data-nudge="down" aria-label="حرکت به پایین" data-testid="nudge-down"><span></span></button>
+              <button type="button" class="nudge nudge-right" data-nudge="right" aria-label="حرکت به راست" data-testid="nudge-right"><span></span></button>
+            </div>
+          </div>
+
+          <footer class="play-footer">
+            <p data-testid="keyboard-help"><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> حرکت <span class="footer-divider">/</span> <kbd>فاصله</kbd> مکث</p>
+            <p data-testid="pointer-help">نشانگر را در میدان بکش <span class="footer-divider">·</span> لمس کن تا مسیر را نشان دهی</p>
+            <span class="connection-status"><i></i> سامانه آماده</span>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
