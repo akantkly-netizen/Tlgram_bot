@@ -1,0 +1,27 @@
+; Neon Rift — Godot Engine 4 mobile game prototype
+config_version=5
+
+[application]
+config/name="Neon Rift"
+run/main_scene="res://scenes/main.tscn"
+config/icon="res://icon.svg"
+config/features=PackedStringArray("4.2", "GL Compatibility")
+config/description="A portrait-mode 3D arena survival game made for mobile."
+
+[display]
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/size/window_width_override=450
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.012, 0.018, 0.04, 1)
+
+[physics]
+3d/default_gravity=9.8
+
